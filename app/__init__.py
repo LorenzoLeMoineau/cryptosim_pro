@@ -14,6 +14,15 @@ def create_app():
     login_manager.init_app(app)
     login_manager.login_view = "auth.login"
 
+    from app import models
+
+    @login_manager.user_loader
+    def load_user(user_id):
+        return models.User.query.get(int(user_id))
+
+    with app.app_context():
+        db.create_all()
+
     @app.route("/")
     def index():
         return "CryptoSim Pro — projet en cours de construction"
