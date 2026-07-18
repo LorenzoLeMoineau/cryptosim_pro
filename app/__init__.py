@@ -23,6 +23,9 @@ def create_app():
     with app.app_context():
         db.create_all()
 
+    from app.auth import bp as auth_bp
+    app.register_blueprint(auth_bp, url_prefix="/auth")
+
     @app.route("/")
     def index():
         return "CryptoSim Pro — projet en cours de construction"
