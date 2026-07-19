@@ -29,6 +29,9 @@ def create_app():
     from app.dashboard import bp as dashboard_bp
     app.register_blueprint(dashboard_bp)
 
+    from app.market import bp as market_bp
+    app.register_blueprint(market_bp)
+
     @app.route("/")
     def index():
         return render_template("landing.html")

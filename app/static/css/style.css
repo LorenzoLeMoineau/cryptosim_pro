@@ -234,6 +234,31 @@ tbody tr:hover {
     }
 }
 
+/* Market */
+.search-input {
+    width: 100%;
+    max-width: 400px;
+    margin-bottom: 1.25rem;
+}
+
+.coin-icon {
+    width: 20px;
+    height: 20px;
+    vertical-align: middle;
+    margin-right: 0.5rem;
+    border-radius: 50%;
+}
+
+.coin-name {
+    display: flex;
+    align-items: center;
+}
+
+.text-muted {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+}
+
 /* Dashboard */
 .stats-grid {
     display: grid;
