@@ -234,6 +234,16 @@ tbody tr:hover {
     }
 }
 
+/* Trading */
+.trading-panel form {
+    max-width: 480px;
+}
+
+.trading-actions {
+    display: flex;
+    gap: 0.75rem;
+}
+
 /* Market */
 .search-input {
     width: 100%;

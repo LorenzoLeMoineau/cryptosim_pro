@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}Trading — CryptoSim Pro{% endblock %}
+
+{% block content %}
+<h1>Trading</h1>
+
+<div class="stats-grid">
+    <div class="card">
+        <p class="stat-label">Cash disponible</p>
+        <p class="stat-value">${{ "%.2f"|format(current_user.cash_balance) }}</p>
+    </div>
+</div>
+
+<div class="card trading-panel">
+    <form method="POST" id="tradingForm">
+        <div>
+            <label for="coin_id">Cryptomonnaie</label>
+            <select name="coin_id" id="coin_id">
+                {% for coin in coins %}
+                <option
+                    value="{{ coin.id }}"
+                    data-price="{{ coin.current_price }}"
+                    {% if coin.id == selected_coin_id %}selected{% endif %}
+                >
+                    {{ coin.name }} ({{ coin.symbol|upper }}) — ${{ "%.2f"|format(coin.current_price) }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div>
+            <label for="quantity">Quantité</label>
+            <input type="number" step="any" min="0" name="quantity" id="quantity" required>
+        </div>
+
+        <p>Prix actuel : $<span id="currentPrice">-</span></p>
+        <p>Frais (0.5%) : $<span id="feeEstimate">-</span></p>
+        <p>Total estimé (achat) : $<span id="totalEstimate">-</span></p>
+        <p>Vous détenez : <span id="heldQuantity">0</span></p>
+
+        <div class="trading-actions">
+            <button type="submit" name="action" value="buy" class="btn">Acheter</button>
+            <button type="submit" name="action" value="sell" class="btn btn-secondary">Vendre</button>
+        </div>
+    </form>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    window.HOLDINGS = {{ holdings_dict | tojson }};
+</script>
+<script src="{{ url_for('static', filename='js/trading.js') }}"></script>
+{% endblock %}
