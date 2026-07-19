@@ -1,5 +1,5 @@
 import os
-from flask import Flask
+from flask import Flask, render_template
 from config import Config
 from app.extensions import db, login_manager
 
@@ -28,6 +28,6 @@ def create_app():
 
     @app.route("/")
     def index():
-        return "CryptoSim Pro — projet en cours de construction"
+        return render_template("landing.html")
 
     return app

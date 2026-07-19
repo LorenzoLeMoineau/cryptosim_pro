@@ -234,6 +234,56 @@ tbody tr:hover {
     }
 }
 
+/* Landing page */
+.hero {
+    text-align: center;
+    padding: 4rem 1rem;
+}
+
+.hero h1 {
+    font-size: 2.2rem;
+    margin-bottom: 0.75rem;
+}
+
+.hero p {
+    color: var(--text-muted);
+    max-width: 560px;
+    margin: 0 auto 1.75rem;
+}
+
+.hero .btn,
+.hero .btn-secondary {
+    display: inline-block;
+    margin: 0 0.4rem;
+}
+
+.btn-secondary {
+    background-color: transparent;
+    border: 1px solid var(--border);
+    color: var(--text);
+}
+
+.btn-secondary:hover {
+    background-color: var(--bg-card-hover);
+}
+
+.features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.25rem;
+    margin-top: 2rem;
+}
+
+.features h3 {
+    margin-bottom: 0.5rem;
+    color: var(--accent);
+}
+
+.features p {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
 /* Footer */
 .footer {
     text-align: center;

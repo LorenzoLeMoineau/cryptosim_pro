@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}CryptoSim Pro — Trading simulé de cryptomonnaies{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <h1>Tradez des cryptomonnaies sans risquer un centime</h1>
+    <p>CryptoSim Pro vous donne 10 000 $ virtuels pour apprendre le trading de cryptos avec des prix en temps réel.</p>
+
+    {% if current_user.is_authenticated %}
+        <a href="{{ url_for('index') }}" class="btn">Aller au dashboard</a>
+    {% else %}
+        <a href="{{ url_for('auth.register') }}" class="btn">Commencer gratuitement</a>
+        <a href="{{ url_for('auth.login') }}" class="btn btn-secondary">Se connecter</a>
+    {% endif %}
+</section>
+
+<section class="features">
+    <div class="card">
+        <h3>Prix en direct</h3>
+        <p>Données de marché en temps réel via CoinGecko sur plus de 10 cryptomonnaies.</p>
+    </div>
+    <div class="card">
+        <h3>Portefeuille virtuel</h3>
+        <p>Achetez, vendez, suivez vos gains et pertes sans risque financier réel.</p>
+    </div>
+    <div class="card">
+        <h3>Classement</h3>
+        <p>Comparez vos performances au leaderboard des meilleurs traders.</p>
+    </div>
+</section>
+{% endblock %}
