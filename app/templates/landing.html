@@ -8,7 +8,7 @@
     <p>CryptoSim Pro vous donne 10 000 $ virtuels pour apprendre le trading de cryptos avec des prix en temps réel.</p>
 
     {% if current_user.is_authenticated %}
-        <a href="{{ url_for('index') }}" class="btn">Aller au dashboard</a>
+        <a href="{{ url_for('dashboard.index') }}" class="btn">Aller au dashboard</a>
     {% else %}
         <a href="{{ url_for('auth.register') }}" class="btn">Commencer gratuitement</a>
         <a href="{{ url_for('auth.login') }}" class="btn btn-secondary">Se connecter</a>

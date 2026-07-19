@@ -9,7 +9,7 @@ from app.models import User
 @bp.route("/register", methods=["GET", "POST"])
 def register():
     if current_user.is_authenticated:
-        return redirect(url_for("index"))
+        return redirect(url_for("dashboard.index"))
 
     if request.method == "POST":
         username = request.form.get("username", "").strip()
@@ -46,7 +46,7 @@ def register():
 @bp.route("/login", methods=["GET", "POST"])
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for("index"))
+        return redirect(url_for("dashboard.index"))
 
     if request.method == "POST":
         email = request.form.get("email", "").strip().lower()
@@ -59,7 +59,7 @@ def login():
             return render_template("auth/login.html")
 
         login_user(user)
-        return redirect(url_for("index"))
+        return redirect(url_for("dashboard.index"))
 
     return render_template("auth/login.html")
 

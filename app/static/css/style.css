@@ -234,6 +234,30 @@ tbody tr:hover {
     }
 }
 
+/* Dashboard */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.25rem;
+    margin-bottom: 2rem;
+}
+
+.stat-label {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    margin-bottom: 0.4rem;
+}
+
+.stat-value {
+    font-size: 1.6rem;
+    font-weight: 700;
+}
+
+h2 {
+    margin: 1.75rem 0 0.9rem;
+    font-size: 1.15rem;
+}
+
 /* Landing page */
 .hero {
     text-align: center;
