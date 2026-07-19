@@ -27,4 +27,3 @@ python run.py
 ```
 
 Le site est accessible sur http://127.0.0.1:5000
-test commit
