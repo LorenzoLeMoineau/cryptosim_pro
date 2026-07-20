@@ -1,14 +1,20 @@
-from flask import render_template
+from flask import render_template, flash
 from flask_login import login_required, current_user
 
 from app.dashboard import bp
 from app.market.coingecko import get_coin_price
 from app.models import Transaction
+from app.alerts.checks import check_price_alerts
 
 
 @bp.route("/dashboard")
 @login_required
 def index():
+    triggered_alerts = check_price_alerts(current_user)
+    for alert in triggered_alerts:
+        condition_text = "dépassé" if alert.direction == "above" else "chuté sous"
+        flash(f"Alerte : {alert.coin_id} a {condition_text} ${alert.target_price}.", "success")
+
     holdings_value = 0.0
     invested_value = 0.0
     holdings_data = []

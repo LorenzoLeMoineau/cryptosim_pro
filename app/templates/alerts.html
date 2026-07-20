@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block title %}Alertes de prix — CryptoSim Pro{% endblock %}
+
+{% block content %}
+<h1>Alertes de prix</h1>
+
+<div class="card">
+    <h2>Créer une alerte</h2>
+    <form method="POST" action="{{ url_for('alerts.create') }}">
+        <div>
+            <label for="coin_id">Cryptomonnaie</label>
+            <select name="coin_id" id="coin_id">
+                {% for coin in coins %}
+                <option value="{{ coin.id }}">
+                    {{ coin.name }} ({{ coin.symbol|upper }}) — ${{ "%.2f"|format(coin.current_price) }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div>
+            <label for="direction">Condition</label>
+            <select name="direction" id="direction">
+                <option value="above">Passe au-dessus de</option>
+                <option value="below">Passe en-dessous de</option>
+            </select>
+        </div>
+
+        <div>
+            <label for="target_price">Prix cible ($)</label>
+            <input type="number" step="any" min="0" name="target_price" id="target_price" required>
+        </div>
+
+        <button type="submit">Créer l'alerte</button>
+    </form>
+</div>
+
+<h2>Mes alertes</h2>
+{% if alerts %}
+<table>
+    <thead>
+        <tr>
+            <th>Crypto</th>
+            <th>Condition</th>
+            <th>Statut</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for alert in alerts %}
+        <tr>
+            <td>{{ alert.coin_id }}</td>
+            <td>
+                {{ "Au-dessus de" if alert.direction == "above" else "En-dessous de" }}
+                ${{ "%.2f"|format(alert.target_price) }}
+            </td>
+            <td class="{{ 'positive' if alert.triggered else 'text-muted' }}">
+                {{ "Déclenchée" if alert.triggered else "Active" }}
+            </td>
+            <td>
+                <form method="POST" action="{{ url_for('alerts.delete', alert_id=alert.id) }}" class="icon-form">
+                    <button type="submit" class="btn-secondary btn-small">Supprimer</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>Aucune alerte pour le moment.</p>
+{% endif %}
+{% endblock %}

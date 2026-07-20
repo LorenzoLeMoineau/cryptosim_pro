@@ -47,6 +47,9 @@ def create_app():
     from app.watchlist import bp as watchlist_bp
     app.register_blueprint(watchlist_bp)
 
+    from app.alerts import bp as alerts_bp
+    app.register_blueprint(alerts_bp)
+
     @app.route("/")
     def index():
         return render_template("landing.html")
