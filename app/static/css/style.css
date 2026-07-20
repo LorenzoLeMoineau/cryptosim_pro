@@ -234,6 +234,11 @@ tbody tr:hover {
     }
 }
 
+/* Leaderboard */
+.current-user-row {
+    background-color: rgba(99, 102, 241, 0.08);
+}
+
 /* History */
 .filters-bar {
     display: flex;

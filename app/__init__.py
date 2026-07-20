@@ -41,6 +41,9 @@ def create_app():
     from app.history import bp as history_bp
     app.register_blueprint(history_bp)
 
+    from app.leaderboard import bp as leaderboard_bp
+    app.register_blueprint(leaderboard_bp)
+
     @app.route("/")
     def index():
         return render_template("landing.html")
