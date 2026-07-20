@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}Actualités — CryptoSim Pro{% endblock %}
+
+{% block content %}
+<h1>Actualités crypto</h1>
+
+{% if articles %}
+<div class="news-list">
+    {% for article in articles %}
+    <a href="{{ article.link }}" target="_blank" rel="noopener noreferrer" class="news-item">
+        <p class="news-source">
+            {{ article.source }}{% if article.published %} · {{ article.published }}{% endif %}
+        </p>
+        <p class="news-title">{{ article.title }}</p>
+    </a>
+    {% endfor %}
+</div>
+{% else %}
+<p>Impossible de récupérer les actualités pour le moment. Réessayez dans quelques instants.</p>
+{% endif %}
+{% endblock %}

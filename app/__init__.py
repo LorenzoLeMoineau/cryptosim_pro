@@ -53,6 +53,9 @@ def create_app():
     from app.profile import bp as profile_bp
     app.register_blueprint(profile_bp)
 
+    from app.news import bp as news_bp
+    app.register_blueprint(news_bp)
+
     @app.route("/")
     def index():
         return render_template("landing.html")
