@@ -234,6 +234,34 @@ tbody tr:hover {
     }
 }
 
+/* History */
+.filters-bar {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    max-width: none;
+    margin-bottom: 1.5rem;
+}
+
+.filters-bar > div {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.filters-bar select {
+    min-width: 140px;
+}
+
+th a {
+    color: inherit;
+}
+
+th a:hover {
+    color: var(--text);
+}
+
 /* Portfolio */
 .allocation-bar {
     width: 100px;

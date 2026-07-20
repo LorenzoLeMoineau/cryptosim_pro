@@ -38,6 +38,9 @@ def create_app():
     from app.portfolio import bp as portfolio_bp
     app.register_blueprint(portfolio_bp)
 
+    from app.history import bp as history_bp
+    app.register_blueprint(history_bp)
+
     @app.route("/")
     def index():
         return render_template("landing.html")

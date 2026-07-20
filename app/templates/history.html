@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block title %}Historique — CryptoSim Pro{% endblock %}
+
+{% block content %}
+<h1>Historique des transactions</h1>
+
+<form method="GET" class="filters-bar">
+    <div>
+        <label for="type">Type</label>
+        <select name="type" id="type" onchange="this.form.submit()">
+            <option value="all" {% if type_filter == "all" %}selected{% endif %}>Tous</option>
+            <option value="buy" {% if type_filter == "buy" %}selected{% endif %}>Achats</option>
+            <option value="sell" {% if type_filter == "sell" %}selected{% endif %}>Ventes</option>
+        </select>
+    </div>
+
+    <div>
+        <label for="coin">Crypto</label>
+        <select name="coin" id="coin" onchange="this.form.submit()">
+            <option value="all" {% if coin_filter == "all" %}selected{% endif %}>Toutes</option>
+            {% for coin_id in coin_options %}
+            <option value="{{ coin_id }}" {% if coin_filter == coin_id %}selected{% endif %}>{{ coin_id }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <input type="hidden" name="sort" value="{{ sort_by }}">
+    <input type="hidden" name="order" value="{{ order }}">
+</form>
+
+{% if transactions %}
+{% set next_date_order = "asc" if sort_by == "date" and order == "desc" else "desc" %}
+{% set next_amount_order = "asc" if sort_by == "amount" and order == "desc" else "desc" %}
+<table>
+    <thead>
+        <tr>
+            <th>
+                <a href="{{ url_for('history.index', type=type_filter, coin=coin_filter, sort='date', order=next_date_order) }}">
+                    Date {% if sort_by == "date" %}{{ "↓" if order == "desc" else "↑" }}{% endif %}
+                </a>
+            </th>
+            <th>Type</th>
+            <th>Crypto</th>
+            <th>Quantité</th>
+            <th>Prix</th>
+            <th>Frais</th>
+            <th>
+                <a href="{{ url_for('history.index', type=type_filter, coin=coin_filter, sort='amount', order=next_amount_order) }}">
+                    Montant {% if sort_by == "amount" %}{{ "↓" if order == "desc" else "↑" }}{% endif %}
+                </a>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for t in transactions %}
+        <tr>
+            <td>{{ t.timestamp.strftime("%d/%m/%Y %H:%M") }}</td>
+            <td class="{{ 'positive' if t.type == 'buy' else 'negative' }}">{{ t.type|capitalize }}</td>
+            <td>{{ t.coin_id }}</td>
+            <td>{{ t.quantity }}</td>
+            <td>${{ "%.2f"|format(t.price) }}</td>
+            <td>${{ "%.2f"|format(t.fee) }}</td>
+            <td>${{ "%.2f"|format(t.quantity * t.price) }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>Aucune transaction ne correspond à ces filtres.</p>
+{% endif %}
+{% endblock %}
