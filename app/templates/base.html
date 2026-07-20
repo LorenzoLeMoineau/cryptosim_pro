@@ -24,7 +24,7 @@
                 <a href="{{ url_for('leaderboard.index') }}">Leaderboard</a>
                 <a href="{{ url_for('watchlist.index') }}">Watchlist</a>
                 <a href="{{ url_for('alerts.index') }}">Alertes</a>
-                <a href="#">Profil</a>
+                <a href="{{ url_for('profile.index') }}">Profil</a>
                 <a href="{{ url_for('auth.logout') }}" class="navbar-logout">Déconnexion</a>
             {% else %}
                 <a href="{{ url_for('auth.login') }}">Connexion</a>

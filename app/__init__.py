@@ -50,6 +50,9 @@ def create_app():
     from app.alerts import bp as alerts_bp
     app.register_blueprint(alerts_bp)
 
+    from app.profile import bp as profile_bp
+    app.register_blueprint(profile_bp)
+
     @app.route("/")
     def index():
         return render_template("landing.html")
