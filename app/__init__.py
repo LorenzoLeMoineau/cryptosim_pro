@@ -35,6 +35,9 @@ def create_app():
     from app.trading import bp as trading_bp
     app.register_blueprint(trading_bp)
 
+    from app.portfolio import bp as portfolio_bp
+    app.register_blueprint(portfolio_bp)
+
     @app.route("/")
     def index():
         return render_template("landing.html")

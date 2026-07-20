@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block title %}Portfolio — CryptoSim Pro{% endblock %}
+
+{% block content %}
+<h1>Portfolio</h1>
+
+<div class="stats-grid">
+    <div class="card">
+        <p class="stat-label">Valeur du portefeuille</p>
+        <p class="stat-value">${{ "%.2f"|format(portfolio_value) }}</p>
+    </div>
+    <div class="card">
+        <p class="stat-label">Valeur des positions</p>
+        <p class="stat-value">${{ "%.2f"|format(total_holdings_value) }}</p>
+    </div>
+    <div class="card">
+        <p class="stat-label">Gain / Perte latent</p>
+        <p class="stat-value {{ 'positive' if total_profit_loss >= 0 else 'negative' }}">
+            {{ "+" if total_profit_loss >= 0 else "" }}${{ "%.2f"|format(total_profit_loss) }}
+            ({{ "+" if total_profit_loss_pct >= 0 else "" }}{{ "%.2f"|format(total_profit_loss_pct) }}%)
+        </p>
+    </div>
+</div>
+
+<h2>Mes positions</h2>
+{% if holdings_data %}
+<table>
+    <thead>
+        <tr>
+            <th>Crypto</th>
+            <th>Quantité</th>
+            <th>Prix moyen d'achat</th>
+            <th>Prix actuel</th>
+            <th>Valeur</th>
+            <th>Allocation</th>
+            <th>Gain / Perte</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for h in holdings_data %}
+        <tr>
+            <td>{{ h.coin_id }}</td>
+            <td>{{ h.quantity }}</td>
+            <td>${{ "%.2f"|format(h.avg_buy_price) }}</td>
+            <td>${{ "%.2f"|format(h.current_price) }}</td>
+            <td>${{ "%.2f"|format(h.current_value) }}</td>
+            <td>
+                <div class="allocation-bar">
+                    <div class="allocation-fill" style="width: {{ h.allocation_pct }}%;"></div>
+                </div>
+                <span class="text-muted">{{ "%.1f"|format(h.allocation_pct) }}%</span>
+            </td>
+            <td class="{{ 'positive' if h.profit_loss >= 0 else 'negative' }}">
+                {{ "+" if h.profit_loss >= 0 else "" }}${{ "%.2f"|format(h.profit_loss) }}
+                ({{ "+" if h.profit_loss_pct >= 0 else "" }}{{ "%.1f"|format(h.profit_loss_pct) }}%)
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>Vous ne détenez aucune crypto pour le moment. <a href="{{ url_for('trading.index') }}">Commencer à trader</a>.</p>
+{% endif %}
+{% endblock %}
