@@ -44,6 +44,9 @@ def create_app():
     from app.leaderboard import bp as leaderboard_bp
     app.register_blueprint(leaderboard_bp)
 
+    from app.watchlist import bp as watchlist_bp
+    app.register_blueprint(watchlist_bp)
+
     @app.route("/")
     def index():
         return render_template("landing.html")

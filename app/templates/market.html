@@ -21,11 +21,13 @@
             <th>Prix</th>
             <th>Variation 24h</th>
             <th>Market Cap</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
         {% for coin in coins %}
         {% set change = coin.price_change_percentage_24h or 0 %}
+        {% set is_watched = coin.id in watched_coin_ids %}
         <tr class="market-row" data-name="{{ coin.name|lower }} {{ coin.symbol|lower }}">
             <td>{{ coin.market_cap_rank }}</td>
             <td class="coin-name">
@@ -37,6 +39,16 @@
                 {{ "%.2f"|format(change) }}%
             </td>
             <td>${{ "{:,.0f}".format(coin.market_cap) }}</td>
+            <td>
+                <form method="POST" action="{{ url_for('watchlist.toggle') }}" class="icon-form">
+                    <input type="hidden" name="coin_id" value="{{ coin.id }}">
+                    <button
+                        type="submit"
+                        class="star-btn {{ 'star-filled' if is_watched else 'star-empty' }}"
+                        title="{{ 'Retirer des favoris' if is_watched else 'Ajouter aux favoris' }}"
+                    >&#9733;</button>
+                </form>
+            </td>
         </tr>
         {% endfor %}
     </tbody>

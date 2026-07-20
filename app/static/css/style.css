@@ -234,6 +234,32 @@ tbody tr:hover {
     }
 }
 
+/* Watchlist */
+.icon-form {
+    display: inline-block;
+}
+
+.star-btn {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+}
+
+.star-btn:hover {
+    opacity: 0.8;
+}
+
+.star-filled {
+    color: #f5b400;
+}
+
+.star-empty {
+    color: var(--text-muted);
+}
+
 /* Leaderboard */
 .current-user-row {
     background-color: rgba(99, 102, 241, 0.08);

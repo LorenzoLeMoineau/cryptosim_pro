@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}Watchlist — CryptoSim Pro{% endblock %}
+
+{% block content %}
+<h1>Ma Watchlist</h1>
+
+{% if coins %}
+<table>
+    <thead>
+        <tr>
+            <th>Nom</th>
+            <th>Prix</th>
+            <th>Variation 24h</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for coin in coins %}
+        {% set change = coin.price_change_percentage_24h or 0 %}
+        <tr>
+            <td class="coin-name">
+                <img src="{{ coin.image }}" alt="{{ coin.name }}" class="coin-icon">
+                {{ coin.name }} <span class="text-muted">{{ coin.symbol|upper }}</span>
+            </td>
+            <td>${{ "%.2f"|format(coin.current_price) }}</td>
+            <td class="{{ 'positive' if change >= 0 else 'negative' }}">
+                {{ "%.2f"|format(change) }}%
+            </td>
+            <td>
+                <form method="POST" action="{{ url_for('watchlist.toggle') }}" class="icon-form">
+                    <input type="hidden" name="coin_id" value="{{ coin.id }}">
+                    <button type="submit" class="star-btn star-filled" title="Retirer des favoris">&#9733;</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>Votre watchlist est vide. Ajoutez des cryptos depuis la <a href="{{ url_for('market.index') }}">page Market</a>.</p>
+{% endif %}
+{% endblock %}
