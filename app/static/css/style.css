@@ -234,6 +234,27 @@ tbody tr:hover {
     }
 }
 
+/* Responsive tables */
+.table-wrap {
+    overflow-x: auto;
+    margin-bottom: 1rem;
+}
+
+.table-wrap table {
+    min-width: 600px;
+}
+
+/* Error pages */
+.error-page {
+    text-align: center;
+    padding: 4rem 1rem;
+}
+
+.error-page h1 {
+    font-size: 3rem;
+    color: var(--accent);
+}
+
 /* Charts */
 .chart-card {
     max-width: 480px;
