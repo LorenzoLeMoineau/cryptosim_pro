@@ -24,8 +24,17 @@ body {
     color: var(--text);
     line-height: 1.5;
     min-height: 100vh;
+}
+
+.app-shell {
     display: flex;
     flex-direction: column;
+    min-height: 100vh;
+}
+
+body.has-sidebar .app-shell {
+    margin-left: 280px;
+    margin-right: 280px;
 }
 
 a {
@@ -95,10 +104,135 @@ a {
 /* Contenu */
 .page-content {
     flex: 1;
+    min-width: 0;
     width: 100%;
     max-width: 1200px;
     margin: 0 auto;
     padding: 1.75rem 1.5rem;
+}
+
+/* News sidebar */
+.news-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 280px;
+    background-color: var(--bg-card);
+    border-right: 1px solid var(--border);
+    padding: 1.25rem;
+    overflow-y: auto;
+    z-index: 90;
+}
+
+.news-sidebar-title {
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+}
+
+.news-sidebar-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.news-sidebar-item {
+    display: flex;
+    gap: 0.6rem;
+    align-items: flex-start;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.news-sidebar-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.news-sidebar-image {
+    width: 56px;
+    height: 56px;
+    object-fit: cover;
+    border-radius: calc(var(--radius) - 2px);
+    flex-shrink: 0;
+    background-color: var(--bg);
+}
+
+.news-sidebar-body {
+    min-width: 0;
+}
+
+.news-sidebar-source {
+    color: var(--text-muted);
+    font-size: 0.7rem;
+    margin-bottom: 0.2rem;
+}
+
+.news-sidebar-headline {
+    font-size: 0.82rem;
+    font-weight: 500;
+    line-height: 1.3;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.news-sidebar-more {
+    display: block;
+    text-align: center;
+    margin-top: 1rem;
+    font-size: 0.8rem;
+    color: var(--accent);
+}
+
+.news-sidebar-more:hover {
+    text-decoration: underline;
+}
+
+.news-sidebar-empty {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+}
+
+/* Market sidebar (droite, même style que la sidebar news) */
+.market-sidebar {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 280px;
+    background-color: var(--bg-card);
+    border-left: 1px solid var(--border);
+    padding: 1.25rem;
+    overflow-y: auto;
+    z-index: 90;
+}
+
+.market-sidebar-item {
+    display: flex;
+    gap: 0.6rem;
+    align-items: flex-start;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.market-sidebar-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.market-sidebar-image {
+    width: 28px;
+    height: 28px;
+    flex-shrink: 0;
+    margin-top: 0.15rem;
+}
+
+.market-sidebar-change {
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin-top: 0.15rem;
 }
 
 /* Flash messages */
@@ -531,5 +665,20 @@ h2 {
 
     form {
         max-width: 100%;
+    }
+
+    body.has-sidebar .app-shell {
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    .news-sidebar,
+    .market-sidebar {
+        position: static;
+        width: 100%;
+        max-height: none;
+        border-right: none;
+        border-left: none;
+        border-bottom: 1px solid var(--border);
     }
 }

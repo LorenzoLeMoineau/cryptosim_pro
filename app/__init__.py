@@ -56,6 +56,19 @@ def create_app():
     from app.news import bp as news_bp
     app.register_blueprint(news_bp)
 
+    from flask_login import current_user
+
+    @app.context_processor
+    def inject_sidebars():
+        if not current_user.is_authenticated:
+            return {}
+        from app.news.rss import get_latest_articles
+        from app.market.coingecko import get_market_data
+        return {
+            "sidebar_articles": get_latest_articles(limit=100),
+            "sidebar_coins": get_market_data(),
+        }
+
     @app.route("/")
     def index():
         return render_template("landing.html")
