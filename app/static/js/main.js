@@ -19,11 +19,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Indicateur de chargement sur les formulaires pour éviter les doubles soumissions
     document.querySelectorAll("form").forEach((form) => {
-        form.addEventListener("submit", () => {
-            const submitBtn = form.querySelector("button[type='submit']");
+        form.addEventListener("submit", (event) => {
+            const submitBtn = event.submitter || form.querySelector("button[type='submit']");
             if (submitBtn && !submitBtn.disabled) {
-                submitBtn.disabled = true;
-                submitBtn.innerHTML = '<span class="loading"></span> Chargement...';
+                setTimeout(() => {
+                    submitBtn.disabled = true;
+                    submitBtn.innerHTML = '<span class="loading"></span> Chargement...';
+                }, 0);
             }
         });
     });
