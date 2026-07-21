@@ -34,12 +34,16 @@ def get_latest_articles(limit=20):
             published_parsed = entry.get("published_parsed")
             published_ts = time.mktime(published_parsed) if published_parsed else 0
 
+            media_content = entry.get("media_content") or []
+            image = media_content[0]["url"] if media_content and media_content[0].get("url") else None
+
             articles.append({
                 "title": entry.get("title", "Sans titre"),
                 "link": entry.get("link", "#"),
                 "source": source,
                 "published": entry.get("published", ""),
                 "published_ts": published_ts,
+                "image": image,
             })
 
     if not articles:

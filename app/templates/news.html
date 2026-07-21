@@ -9,10 +9,15 @@
 <div class="news-list">
     {% for article in articles %}
     <a href="{{ article.link }}" target="_blank" rel="noopener noreferrer" class="news-item">
-        <p class="news-source">
-            {{ article.source }}{% if article.published %} · {{ article.published }}{% endif %}
-        </p>
-        <p class="news-title">{{ article.title }}</p>
+        {% if article.image %}
+        <img src="{{ article.image }}" alt="" class="news-image" loading="lazy">
+        {% endif %}
+        <div class="news-body">
+            <p class="news-source">
+                {{ article.source }}{% if article.published %} · {{ article.published }}{% endif %}
+            </p>
+            <p class="news-title">{{ article.title }}</p>
+        </div>
     </a>
     {% endfor %}
 </div>

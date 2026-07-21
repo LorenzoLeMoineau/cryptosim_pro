@@ -269,16 +269,31 @@ tbody tr:hover {
 }
 
 .news-item {
-    display: block;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
     background-color: var(--bg-card);
     border: 1px solid var(--border);
     border-radius: var(--radius);
-    padding: 1rem 1.25rem;
+    padding: 0.75rem 1.25rem;
     transition: border-color 0.15s ease;
 }
 
 .news-item:hover {
     border-color: var(--accent);
+}
+
+.news-image {
+    width: 96px;
+    height: 72px;
+    object-fit: cover;
+    border-radius: calc(var(--radius) - 2px);
+    flex-shrink: 0;
+    background-color: var(--bg);
+}
+
+.news-body {
+    min-width: 0;
 }
 
 .news-source {
