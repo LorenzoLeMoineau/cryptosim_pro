@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
             datasets: [{
                 data: window.CHART_VALUES || [],
                 backgroundColor: labels.map(colorForLabel),
-                borderColor: "#1a1d29",
+                borderColor: "#ffffff",
                 borderWidth: 2,
             }],
         },
@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
             plugins: {
                 legend: {
                     position: "bottom",
-                    labels: { color: "#e8e9ed" },
+                    labels: { color: "#111827" },
                 },
             },
         },

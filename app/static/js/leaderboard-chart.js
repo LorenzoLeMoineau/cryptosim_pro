@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
             datasets: [{
                 label: "Valeur du portefeuille ($)",
                 data: window.CHART_VALUES || [],
-                backgroundColor: "#6366f1",
+                backgroundColor: "#2563eb",
                 borderRadius: 4,
             }],
         },
@@ -19,8 +19,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 legend: { display: false },
             },
             scales: {
-                x: { ticks: { color: "#8b8fa3" }, grid: { color: "#2a2e3f" } },
-                y: { ticks: { color: "#8b8fa3" }, grid: { color: "#2a2e3f" } },
+                x: { ticks: { color: "#6b7280" }, grid: { color: "#e5e8ef" } },
+                y: { ticks: { color: "#6b7280" }, grid: { color: "#e5e8ef" } },
             },
         },
     });
