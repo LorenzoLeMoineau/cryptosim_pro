@@ -234,6 +234,12 @@ tbody tr:hover {
     }
 }
 
+/* Charts */
+.chart-card {
+    max-width: 480px;
+    margin-bottom: 1.75rem;
+}
+
 /* News */
 .news-list {
     display: flex;

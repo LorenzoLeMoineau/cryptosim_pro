@@ -39,9 +39,14 @@ def index():
         None,
     )
 
+    chart_labels = [r["username"] for r in top_rankings]
+    chart_values = [round(r["portfolio_value"], 2) for r in top_rankings]
+
     return render_template(
         "leaderboard.html",
         rankings=top_rankings,
         current_user_rank=current_user_rank,
         total_users=len(rankings),
+        chart_labels=chart_labels,
+        chart_values=chart_values,
     )

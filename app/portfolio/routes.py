@@ -48,6 +48,9 @@ def index():
     )
     portfolio_value = current_user.cash_balance + total_holdings_value
 
+    chart_labels = [h["coin_id"] for h in holdings_data]
+    chart_values = [round(h["current_value"], 2) for h in holdings_data]
+
     return render_template(
         "portfolio.html",
         holdings_data=holdings_data,
@@ -55,4 +58,6 @@ def index():
         total_profit_loss=total_profit_loss,
         total_profit_loss_pct=total_profit_loss_pct,
         portfolio_value=portfolio_value,
+        chart_labels=chart_labels,
+        chart_values=chart_values,
     )
