@@ -94,7 +94,7 @@
 
     <div class="app-shell">
         <main class="page-content">
-            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% with messages = get_flashed_messages(with_categories=true, category_filter=["success", "error"]) %}
                 {% if messages %}
                     <div class="flash-container">
                         {% for category, message in messages %}
@@ -111,6 +111,23 @@
             <p>CryptoSim Pro — Projet étudiant, trading simulé avec argent virtuel.</p>
         </footer>
     </div>
+
+    {% with price_alerts = get_flashed_messages(category_filter=["price_alert"]) %}
+        {% if price_alerts %}
+        <div class="toast-container" id="toastContainer">
+            {% for message in price_alerts %}
+            <div class="toast toast-alert">
+                <span class="toast-icon">&#128276;</span>
+                <div class="toast-body">
+                    <p class="toast-title">Alerte de prix déclenchée</p>
+                    <p class="toast-message">{{ message }}</p>
+                </div>
+                <button type="button" class="toast-close" aria-label="Fermer">&times;</button>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+    {% endwith %}
 
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
     {% block scripts %}{% endblock %}

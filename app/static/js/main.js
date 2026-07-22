@@ -29,4 +29,17 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     });
+
+    // Notifications toast (alertes de prix) : fermeture manuelle + auto-dismiss
+    document.querySelectorAll(".toast").forEach((toast, index) => {
+        const dismiss = () => {
+            toast.classList.add("toast-hide");
+            toast.addEventListener("animationend", () => toast.remove(), { once: true });
+        };
+
+        const closeBtn = toast.querySelector(".toast-close");
+        if (closeBtn) closeBtn.addEventListener("click", dismiss);
+
+        setTimeout(dismiss, 8000 + index * 400);
+    });
 });

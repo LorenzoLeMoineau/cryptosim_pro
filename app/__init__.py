@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template
+from flask import Flask, render_template, request, flash
 from config import Config
 from app.extensions import db, login_manager
 
@@ -68,6 +68,15 @@ def create_app():
             "sidebar_articles": get_latest_articles(limit=100),
             "sidebar_coins": get_market_data(),
         }
+
+    @app.before_request
+    def check_alerts_globally():
+        if request.endpoint == "static" or not current_user.is_authenticated:
+            return
+        from app.alerts.checks import check_price_alerts
+        for alert in check_price_alerts(current_user):
+            condition_text = "dépassé" if alert.direction == "above" else "chuté sous"
+            flash(f"{alert.coin_id} a {condition_text} ${alert.target_price}.", "price_alert")
 
     @app.route("/")
     def index():
