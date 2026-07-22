@@ -41,6 +41,7 @@
             <th>Valeur</th>
             <th>Allocation</th>
             <th>Gain / Perte</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -61,6 +62,24 @@
                 {{ "+" if h.profit_loss >= 0 else "" }}${{ "%.2f"|format(h.profit_loss) }}
                 ({{ "+" if h.profit_loss_pct >= 0 else "" }}{{ "%.1f"|format(h.profit_loss_pct) }}%)
             </td>
+            <td class="position-actions">
+                <button
+                    type="button"
+                    class="btn-secondary btn-small position-details-toggle"
+                    data-coin-id="{{ h.coin_id }}"
+                >Détails</button>
+                <a href="{{ url_for('trading.index', coin=h.coin_id, mode='sell') }}" class="btn btn-sell btn-small">Vendre</a>
+            </td>
+        </tr>
+        <tr class="position-details-row" id="details-row-{{ h.coin_id }}" style="display:none;">
+            <td colspan="8">
+                <div class="position-chart-wrap">
+                    <canvas id="chart-{{ h.coin_id }}" height="80"></canvas>
+                    <p class="position-chart-empty text-muted" style="display:none;">
+                        Historique indisponible pour le moment.
+                    </p>
+                </div>
+            </td>
         </tr>
         {% endfor %}
     </tbody>
@@ -78,5 +97,6 @@
     window.CHART_VALUES = {{ chart_values | tojson }};
 </script>
 <script src="{{ url_for('static', filename='js/portfolio-chart.js') }}"></script>
+<script src="{{ url_for('static', filename='js/portfolio-details.js') }}"></script>
 {% endif %}
 {% endblock %}

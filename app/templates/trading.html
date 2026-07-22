@@ -12,55 +12,98 @@
     </div>
 </div>
 
-<div class="card trading-panel">
-    <div class="trading-tabs">
-        <button type="button" class="trading-tab active" data-mode="buy">Acheter</button>
-        <button type="button" class="trading-tab" data-mode="sell">Vendre</button>
+<div class="trading-layout">
+    <div class="card trading-panel">
+        <div class="trading-tabs">
+            <button type="button" class="trading-tab active" data-mode="buy">Acheter</button>
+            <button type="button" class="trading-tab" data-mode="sell">Vendre</button>
+        </div>
+
+        <form method="POST" id="tradingForm">
+            <input type="hidden" name="action" id="actionInput" value="buy">
+            <input type="hidden" name="coin_id" id="coin_id" value="{{ selected_coin_id }}">
+            <input type="hidden" name="quantity" id="quantity">
+
+            <div>
+                <label>Cryptomonnaie</label>
+                <div class="coin-picker">
+                    <button type="button" class="coin-picker-trigger" id="coinPickerTrigger">
+                        <img id="coinPickerIcon" src="" alt="" class="coin-icon">
+                        <span class="coin-picker-info">
+                            <span id="coinPickerName">Choisir une crypto</span>
+                            <span class="text-muted" id="coinPickerSymbol"></span>
+                        </span>
+                        <span class="coin-picker-price" id="coinPickerPrice"></span>
+                        <span class="coin-picker-caret">&#9662;</span>
+                    </button>
+
+                    <div class="coin-picker-panel" id="coinPickerPanel" hidden>
+                        <input type="text" class="coin-picker-search" id="coinPickerSearch" placeholder="Rechercher une crypto...">
+                        <div class="coin-picker-list" id="coinPickerList">
+                            {% for coin in coins %}
+                            <button
+                                type="button"
+                                class="coin-picker-option"
+                                data-coin-id="{{ coin.id }}"
+                                data-price="{{ coin.current_price }}"
+                                data-name="{{ coin.name }}"
+                                data-symbol="{{ coin.symbol|upper }}"
+                                data-image="{{ coin.image }}"
+                                data-search="{{ coin.name|lower }} {{ coin.symbol|lower }}"
+                            >
+                                <img src="{{ coin.image }}" class="coin-icon" alt="">
+                                <span class="coin-picker-info">
+                                    {{ coin.name }} <span class="text-muted">{{ coin.symbol|upper }}</span>
+                                </span>
+                                <span class="coin-picker-option-price">${{ "%.2f"|format(coin.current_price) }}</span>
+                            </button>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <label id="amountLabel" for="amountInput">Quantité</label>
+                <div class="direction-toggle amount-mode-toggle">
+                    <button type="button" class="direction-option active" data-amount-mode="quantity">Quantité</button>
+                    <button type="button" class="direction-option" data-amount-mode="usd">Montant ($)</button>
+                </div>
+                <input type="number" step="any" min="0" id="amountInput" required>
+                <p class="text-muted amount-conversion" id="amountConversion"></p>
+                <div class="quick-amounts">
+                    <button type="button" class="quick-amount-btn" data-pct="0.25">25%</button>
+                    <button type="button" class="quick-amount-btn" data-pct="0.5">50%</button>
+                    <button type="button" class="quick-amount-btn" data-pct="0.75">75%</button>
+                    <button type="button" class="quick-amount-btn" data-pct="1">Max</button>
+                </div>
+            </div>
+
+            <p>Prix actuel : $<span id="currentPrice">-</span><span class="price-live-dot" title="Prix actualisé automatiquement"></span></p>
+            <p>Frais (0.5%) : $<span id="feeEstimate">-</span></p>
+            <p>Total estimé (<span id="totalLabel">achat</span>) : $<span id="totalEstimate">-</span></p>
+            <p>Vous détenez : <span id="heldQuantity">0</span></p>
+
+            <button type="submit" id="submitTradeBtn" class="btn btn-buy">Acheter</button>
+        </form>
     </div>
 
-    <form method="POST" id="tradingForm">
-        <input type="hidden" name="action" id="actionInput" value="buy">
-
-        <div>
-            <label for="coin_id">Cryptomonnaie</label>
-            <select name="coin_id" id="coin_id">
-                {% for coin in coins %}
-                <option
-                    value="{{ coin.id }}"
-                    data-price="{{ coin.current_price }}"
-                    {% if coin.id == selected_coin_id %}selected{% endif %}
-                >
-                    {{ coin.name }} ({{ coin.symbol|upper }}) — ${{ "%.2f"|format(coin.current_price) }}
-                </option>
-                {% endfor %}
-            </select>
-        </div>
-
-        <div>
-            <label for="quantity">Quantité</label>
-            <input type="number" step="any" min="0" name="quantity" id="quantity" required>
-            <div class="quick-amounts">
-                <button type="button" class="quick-amount-btn" data-pct="0.25">25%</button>
-                <button type="button" class="quick-amount-btn" data-pct="0.5">50%</button>
-                <button type="button" class="quick-amount-btn" data-pct="0.75">75%</button>
-                <button type="button" class="quick-amount-btn" data-pct="1">Max</button>
-            </div>
-        </div>
-
-        <p>Prix actuel : $<span id="currentPrice">-</span><span class="price-live-dot" title="Prix actualisé automatiquement"></span></p>
-        <p>Frais (0.5%) : $<span id="feeEstimate">-</span></p>
-        <p>Total estimé (<span id="totalLabel">achat</span>) : $<span id="totalEstimate">-</span></p>
-        <p>Vous détenez : <span id="heldQuantity">0</span></p>
-
-        <button type="submit" id="submitTradeBtn" class="btn btn-buy">Acheter</button>
-    </form>
+    <div class="card trading-chart-card">
+        <p class="chart-coin-label" id="chartCoinLabel">&nbsp;</p>
+        <canvas id="tradingChart" height="90"></canvas>
+        <p class="position-chart-empty text-muted" id="tradingChartEmpty" style="display:none;">
+            Historique indisponible pour le moment.
+        </p>
+    </div>
 </div>
 {% endblock %}
 
 {% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     window.HOLDINGS = {{ holdings_dict | tojson }};
     window.CASH_BALANCE = {{ current_user.cash_balance }};
+    window.INITIAL_MODE = {{ initial_mode | tojson }};
 </script>
 <script src="{{ url_for('static', filename='js/trading.js') }}"></script>
 {% endblock %}

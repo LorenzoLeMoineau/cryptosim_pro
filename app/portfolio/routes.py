@@ -1,8 +1,8 @@
-from flask import render_template
+from flask import render_template, jsonify
 from flask_login import login_required, current_user
 
 from app.portfolio import bp
-from app.market.coingecko import get_coin_price
+from app.market.coingecko import get_coin_price, get_market_chart
 
 
 @bp.route("/portfolio")
@@ -61,3 +61,14 @@ def index():
         chart_labels=chart_labels,
         chart_values=chart_values,
     )
+
+
+@bp.route("/portfolio/chart/<coin_id>")
+@login_required
+def chart_data(coin_id):
+    holding = next((h for h in current_user.holdings if h.coin_id == coin_id), None)
+    if holding is None:
+        return jsonify({"error": "not_found"}), 404
+
+    prices = get_market_chart(coin_id, days=7)
+    return jsonify({"prices": prices, "avg_buy_price": holding.avg_buy_price})

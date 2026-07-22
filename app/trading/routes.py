@@ -4,7 +4,7 @@ from flask_login import login_required, current_user
 from app.trading import bp
 from app.extensions import db
 from app.models import Holding, Transaction
-from app.market.coingecko import get_market_data, get_coin
+from app.market.coingecko import get_market_data, get_coin, get_market_chart
 
 FEE_RATE = 0.005
 
@@ -16,6 +16,17 @@ def price(coin_id):
     if coin is None:
         return jsonify({"error": "not_found"}), 404
     return jsonify({"price": coin["current_price"]})
+
+
+@bp.route("/trading/chart/<coin_id>")
+@login_required
+def chart_data(coin_id):
+    prices = get_market_chart(coin_id, days=7)
+
+    holding = next((h for h in current_user.holdings if h.coin_id == coin_id), None)
+    avg_buy_price = holding.avg_buy_price if holding and holding.quantity > 0 else None
+
+    return jsonify({"prices": prices, "avg_buy_price": avg_buy_price})
 
 
 @bp.route("/trading", methods=["GET", "POST"])
@@ -55,12 +66,16 @@ def index():
         return redirect(url_for("trading.index", coin=coin_id))
 
     selected_coin_id = request.args.get("coin", coins[0]["id"] if coins else None)
+    initial_mode = request.args.get("mode", "buy")
+    if initial_mode not in ("buy", "sell"):
+        initial_mode = "buy"
     holdings_dict = {h.coin_id: h.quantity for h in current_user.holdings if h.quantity > 0}
 
     return render_template(
         "trading.html",
         coins=coins,
         selected_coin_id=selected_coin_id,
+        initial_mode=initial_mode,
         holdings_dict=holdings_dict,
         fee_rate=FEE_RATE,
     )
