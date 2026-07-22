@@ -20,11 +20,12 @@
         </div>
 
         <div>
-            <label for="direction">Condition</label>
-            <select name="direction" id="direction">
-                <option value="above">Passe au-dessus de</option>
-                <option value="below">Passe en-dessous de</option>
-            </select>
+            <label>Condition</label>
+            <input type="hidden" name="direction" id="directionInput" value="above">
+            <div class="direction-toggle">
+                <button type="button" class="direction-option active" data-direction="above">Passe au-dessus de</button>
+                <button type="button" class="direction-option" data-direction="below">Passe en-dessous de</button>
+            </div>
         </div>
 
         <div>
@@ -55,8 +56,10 @@
                 {{ "Au-dessus de" if alert.direction == "above" else "En-dessous de" }}
                 ${{ "%.2f"|format(alert.target_price) }}
             </td>
-            <td class="{{ 'positive' if alert.triggered else 'text-muted' }}">
-                {{ "Déclenchée" if alert.triggered else "Active" }}
+            <td>
+                <span class="badge {{ 'badge-success' if alert.triggered else 'badge-neutral' }}">
+                    {{ "Déclenchée" if alert.triggered else "Active" }}
+                </span>
             </td>
             <td>
                 <form method="POST" action="{{ url_for('alerts.delete', alert_id=alert.id) }}" class="icon-form">
@@ -70,4 +73,19 @@
 {% else %}
 <p>Aucune alerte pour le moment.</p>
 {% endif %}
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const directionInput = document.getElementById("directionInput");
+    const options = document.querySelectorAll(".direction-option");
+    options.forEach((opt) => {
+        opt.addEventListener("click", () => {
+            directionInput.value = opt.dataset.direction;
+            options.forEach((o) => o.classList.toggle("active", o === opt));
+        });
+    });
+});
+</script>
 {% endblock %}

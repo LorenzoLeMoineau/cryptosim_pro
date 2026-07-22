@@ -14,6 +14,7 @@
     --radius-lg: 14px;
     --shadow-sm: 0 1px 2px rgba(17, 24, 39, 0.05);
     --shadow: 0 1px 3px rgba(17, 24, 39, 0.06), 0 6px 16px rgba(17, 24, 39, 0.05);
+    --navbar-height: 64px;
 }
 
 * {
@@ -34,6 +35,7 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    padding-top: var(--navbar-height);
 }
 
 body.has-sidebar .app-shell {
@@ -51,13 +53,16 @@ a {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    min-height: var(--navbar-height);
     padding: 0.9rem 1.5rem;
     background-color: var(--bg-card);
     border-bottom: 1px solid var(--border);
     box-shadow: var(--shadow-sm);
-    position: sticky;
+    position: fixed;
     top: 0;
-    z-index: 100;
+    left: 0;
+    right: 0;
+    z-index: 110;
 }
 
 .navbar-brand a {
@@ -128,7 +133,7 @@ a {
 /* News sidebar */
 .news-sidebar {
     position: fixed;
-    top: 0;
+    top: var(--navbar-height);
     left: 0;
     bottom: 0;
     width: 280px;
@@ -214,7 +219,7 @@ a {
 /* Market sidebar (droite, même style que la sidebar news) */
 .market-sidebar {
     position: fixed;
-    top: 0;
+    top: var(--navbar-height);
     right: 0;
     bottom: 0;
     width: 280px;
@@ -469,6 +474,53 @@ tbody tr:hover {
     font-size: 0.8rem;
 }
 
+.direction-toggle {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.direction-option {
+    flex: 1;
+    background-color: var(--bg-card);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    font-weight: 600;
+    font-size: 0.85rem;
+    padding: 0.6rem 0.75rem;
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.direction-option:hover {
+    border-color: var(--accent);
+    color: var(--text);
+}
+
+.direction-option.active {
+    background-color: var(--accent-soft);
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+.badge {
+    display: inline-block;
+    padding: 0.25rem 0.65rem;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.badge-neutral {
+    background-color: var(--accent-soft);
+    color: var(--accent);
+}
+
+.badge-success {
+    background-color: rgba(22, 163, 74, 0.12);
+    color: var(--positive);
+}
+
 /* Watchlist */
 .icon-form {
     display: inline-block;
@@ -548,9 +600,99 @@ th a:hover {
     max-width: 480px;
 }
 
-.trading-actions {
+.trading-tabs {
     display: flex;
-    gap: 0.75rem;
+    gap: 0.5rem;
+    max-width: 480px;
+    margin-bottom: 1.25rem;
+}
+
+.trading-tab {
+    flex: 1;
+    background-color: var(--bg);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    font-weight: 700;
+    font-size: 0.95rem;
+    padding: 0.7rem 1rem;
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.trading-tab:hover {
+    color: var(--text);
+}
+
+.trading-tab.active[data-mode="buy"] {
+    background-color: var(--positive);
+    border-color: var(--positive);
+    color: #fff;
+}
+
+.trading-tab.active[data-mode="sell"] {
+    background-color: var(--negative);
+    border-color: var(--negative);
+    color: #fff;
+}
+
+.quick-amounts {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.quick-amount-btn {
+    flex: 1;
+    background-color: var(--bg-card);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    font-size: 0.78rem;
+    font-weight: 600;
+    padding: 0.4rem;
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.quick-amount-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+.btn-buy {
+    background-color: var(--positive);
+}
+
+.btn-buy:hover {
+    background-color: #15803d;
+}
+
+.btn-sell {
+    background-color: var(--negative);
+}
+
+.btn-sell:hover {
+    background-color: #b91c1c;
+}
+
+.price-live-dot {
+    display: inline-block;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background-color: var(--positive);
+    margin-left: 0.3rem;
+    animation: pulse-dot 1.6s ease-in-out infinite;
+}
+
+@keyframes pulse-dot {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.25;
+    }
 }
 
 /* Market */

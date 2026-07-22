@@ -13,7 +13,14 @@
 </div>
 
 <div class="card trading-panel">
+    <div class="trading-tabs">
+        <button type="button" class="trading-tab active" data-mode="buy">Acheter</button>
+        <button type="button" class="trading-tab" data-mode="sell">Vendre</button>
+    </div>
+
     <form method="POST" id="tradingForm">
+        <input type="hidden" name="action" id="actionInput" value="buy">
+
         <div>
             <label for="coin_id">Cryptomonnaie</label>
             <select name="coin_id" id="coin_id">
@@ -32,17 +39,20 @@
         <div>
             <label for="quantity">Quantité</label>
             <input type="number" step="any" min="0" name="quantity" id="quantity" required>
+            <div class="quick-amounts">
+                <button type="button" class="quick-amount-btn" data-pct="0.25">25%</button>
+                <button type="button" class="quick-amount-btn" data-pct="0.5">50%</button>
+                <button type="button" class="quick-amount-btn" data-pct="0.75">75%</button>
+                <button type="button" class="quick-amount-btn" data-pct="1">Max</button>
+            </div>
         </div>
 
-        <p>Prix actuel : $<span id="currentPrice">-</span></p>
+        <p>Prix actuel : $<span id="currentPrice">-</span><span class="price-live-dot" title="Prix actualisé automatiquement"></span></p>
         <p>Frais (0.5%) : $<span id="feeEstimate">-</span></p>
-        <p>Total estimé (achat) : $<span id="totalEstimate">-</span></p>
+        <p>Total estimé (<span id="totalLabel">achat</span>) : $<span id="totalEstimate">-</span></p>
         <p>Vous détenez : <span id="heldQuantity">0</span></p>
 
-        <div class="trading-actions">
-            <button type="submit" name="action" value="buy" class="btn">Acheter</button>
-            <button type="submit" name="action" value="sell" class="btn btn-secondary">Vendre</button>
-        </div>
+        <button type="submit" id="submitTradeBtn" class="btn btn-buy">Acheter</button>
     </form>
 </div>
 {% endblock %}
@@ -50,6 +60,7 @@
 {% block scripts %}
 <script>
     window.HOLDINGS = {{ holdings_dict | tojson }};
+    window.CASH_BALANCE = {{ current_user.cash_balance }};
 </script>
 <script src="{{ url_for('static', filename='js/trading.js') }}"></script>
 {% endblock %}

@@ -1,4 +1,4 @@
-from flask import render_template, request, redirect, url_for, flash
+from flask import render_template, request, redirect, url_for, flash, jsonify
 from flask_login import login_required, current_user
 
 from app.trading import bp
@@ -7,6 +7,15 @@ from app.models import Holding, Transaction
 from app.market.coingecko import get_market_data, get_coin
 
 FEE_RATE = 0.005
+
+
+@bp.route("/trading/price/<coin_id>")
+@login_required
+def price(coin_id):
+    coin = get_coin(coin_id)
+    if coin is None:
+        return jsonify({"error": "not_found"}), 404
+    return jsonify({"price": coin["current_price"]})
 
 
 @bp.route("/trading", methods=["GET", "POST"])

@@ -10,6 +10,38 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body class="{% if current_user.is_authenticated %}has-sidebar{% endif %}">
+    <header class="navbar">
+        <div class="navbar-brand">
+            <a href="{{ url_for('index') }}">CryptoSim Pro</a>
+        </div>
+
+        <button class="navbar-toggle" id="navbarToggle" aria-label="Ouvrir le menu">&#9776;</button>
+
+        <nav class="navbar-links" id="navbarLinks">
+            {% if current_user.is_authenticated %}
+                {% set nav_items = [
+                    ("dashboard.index", "Dashboard"),
+                    ("market.index", "Market"),
+                    ("trading.index", "Trading"),
+                    ("portfolio.index", "Portfolio"),
+                    ("history.index", "Historique"),
+                    ("leaderboard.index", "Leaderboard"),
+                    ("watchlist.index", "Watchlist"),
+                    ("alerts.index", "Alertes"),
+                    ("news.index", "News"),
+                    ("profile.index", "Profil"),
+                ] %}
+                {% for endpoint, label in nav_items %}
+                <a href="{{ url_for(endpoint) }}" class="{% if request.endpoint == endpoint %}active{% endif %}">{{ label }}</a>
+                {% endfor %}
+                <a href="{{ url_for('auth.logout') }}" class="navbar-logout">Déconnexion</a>
+            {% else %}
+                <a href="{{ url_for('auth.login') }}">Connexion</a>
+                <a href="{{ url_for('auth.register') }}" class="navbar-cta">S'inscrire</a>
+            {% endif %}
+        </nav>
+    </header>
+
     {% if current_user.is_authenticated %}
     <aside class="news-sidebar">
         <h2 class="news-sidebar-title">Actualités</h2>
@@ -61,38 +93,6 @@
     {% endif %}
 
     <div class="app-shell">
-        <header class="navbar">
-            <div class="navbar-brand">
-                <a href="{{ url_for('index') }}">CryptoSim Pro</a>
-            </div>
-
-            <button class="navbar-toggle" id="navbarToggle" aria-label="Ouvrir le menu">&#9776;</button>
-
-            <nav class="navbar-links" id="navbarLinks">
-                {% if current_user.is_authenticated %}
-                    {% set nav_items = [
-                        ("dashboard.index", "Dashboard"),
-                        ("market.index", "Market"),
-                        ("trading.index", "Trading"),
-                        ("portfolio.index", "Portfolio"),
-                        ("history.index", "Historique"),
-                        ("leaderboard.index", "Leaderboard"),
-                        ("watchlist.index", "Watchlist"),
-                        ("alerts.index", "Alertes"),
-                        ("news.index", "News"),
-                        ("profile.index", "Profil"),
-                    ] %}
-                    {% for endpoint, label in nav_items %}
-                    <a href="{{ url_for(endpoint) }}" class="{% if request.endpoint == endpoint %}active{% endif %}">{{ label }}</a>
-                    {% endfor %}
-                    <a href="{{ url_for('auth.logout') }}" class="navbar-logout">Déconnexion</a>
-                {% else %}
-                    <a href="{{ url_for('auth.login') }}">Connexion</a>
-                    <a href="{{ url_for('auth.register') }}" class="navbar-cta">S'inscrire</a>
-                {% endif %}
-            </nav>
-        </header>
-
         <main class="page-content">
             {% with messages = get_flashed_messages(with_categories=true) %}
                 {% if messages %}
