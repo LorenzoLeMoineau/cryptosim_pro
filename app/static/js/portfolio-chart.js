@@ -8,14 +8,29 @@ document.addEventListener("DOMContentLoaded", () => {
         "#ec4899", "#14b8a6", "#eab308", "#3b82f6",
     ];
 
-    // Couleur dérivée du nom de la crypto (et non de sa position dans le tableau)
-    // pour qu'une crypto garde toujours la même couleur d'un portefeuille à l'autre.
-    function colorForLabel(label) {
-        let hash = 0;
-        for (let i = 0; i < label.length; i++) {
-            hash = (hash * 31 + label.charCodeAt(i)) | 0;
-        }
-        return PALETTE[Math.abs(hash) % PALETTE.length];
+    // Couleur dérivée du nom de la crypto (pas de sa position dans le tableau)
+    // pour qu'une crypto garde la même couleur d'un portefeuille à l'autre,
+    // avec résolution des collisions pour garantir des couleurs uniques
+    // entre les cryptos affichées dans un même graphique.
+    function assignColors(labels) {
+        const used = new Set();
+
+        return labels.map((label) => {
+            let hash = 0;
+            for (let i = 0; i < label.length; i++) {
+                hash = (hash * 31 + label.charCodeAt(i)) | 0;
+            }
+
+            let index = Math.abs(hash) % PALETTE.length;
+            let attempts = 0;
+            while (used.has(index) && attempts < PALETTE.length) {
+                index = (index + 1) % PALETTE.length;
+                attempts++;
+            }
+
+            used.add(index);
+            return PALETTE[index];
+        });
     }
 
     const labels = window.CHART_LABELS || [];
@@ -26,7 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
             labels,
             datasets: [{
                 data: window.CHART_VALUES || [],
-                backgroundColor: labels.map(colorForLabel),
+                backgroundColor: assignColors(labels),
                 borderColor: "#ffffff",
                 borderWidth: 2,
             }],
