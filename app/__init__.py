@@ -4,9 +4,12 @@ from config import Config
 from app.extensions import db, login_manager
 
 
-def create_app():
+def create_app(config_overrides=None):
     app = Flask(__name__)
     app.config.from_object(Config)
+
+    if config_overrides:
+        app.config.update(config_overrides)
 
     os.makedirs(os.path.join(app.root_path, "..", "instance"), exist_ok=True)
 
